@@ -1,0 +1,29 @@
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://127.0.0.1:5003/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Include any additional headers or settings as needed
+    }
+
+    location /static/ {
+        alias /path/to/your/AirBnB_clone_v4/web_dynamic/static/;
+        expires 30d;
+        access_log off;
+    }
+
+    # Adjust the IP address in the script as needed
+    location /static/scripts/2-hbnb.js {
+        alias /path/to/your/AirBnB_clone_v4/web_dynamic/static/scripts/2-hbnb.js;
+        expires max;
+        access_log off;
+    }
+
+    # Additional location blocks for other static files if needed
+}
